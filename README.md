@@ -1,6 +1,12 @@
-# the_gay_agenda
+# The Gay Agenda
 
-A new Flutter project.
+The real and official Gay Agenda, approved by the global Gay Conspiracy Committee (GCC) :rainbow_flag:
+
+## Disclaimer
+
+This project is satire.
+
+It was made during a project from our school, Epitech.
 
 ## Getting Started
 
