@@ -1,22 +1,7 @@
 # The Gay Agenda
 
-The real and official Gay Agenda, approved by the global Gay Conspiracy Committee (GCC) :rainbow_flag:
+The true and official Gay Agenda, approved by the global Gay Conspiracy Committee (GCC) :rainbow_flag:
 
 ## Disclaimer
 
-This project is satire.
-
-It was made during a project from our school, Epitech.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This is a satire. It was made as a student project for our school, Epitech.
