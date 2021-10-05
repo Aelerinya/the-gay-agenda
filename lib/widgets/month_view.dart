@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:the_gay_agenda/utils/datetime_helpers.dart';
 
 class MonthView extends StatefulWidget {
   const MonthView({Key? key}) : super(key: key);
@@ -11,33 +12,14 @@ class MonthView extends StatefulWidget {
 class _MonthViewState extends State<MonthView> {
   DateTime _month = DateTime.now();
 
-  DateTime getFirstDisplayedDay() {
+  Iterable<DateTime> getAllDisplayedDays() {
     final intl = MaterialLocalizations.of(context);
-    final firstDayOfMonth = DateTime(_month.year, _month.month, 1);
-    final daysToSubtract =
-        (firstDayOfMonth.weekday - intl.firstDayOfWeekIndex) % 7;
-    return DateTime(firstDayOfMonth.year, firstDayOfMonth.month,
-        firstDayOfMonth.day - daysToSubtract);
-  }
+    final firstDay = getStartOfFirstWeekOfMonth(_month,
+        firstDayOfWeekIndex: intl.firstDayOfWeekIndex);
+    final lastDay = getEndOfLastWeekOfMonth(_month,
+        firstDayOfWeekIndex: intl.firstDayOfWeekIndex);
 
-  DateTime getLastDisplayedDay() {
-    final intl = MaterialLocalizations.of(context);
-    final lastDayOfMonth = DateTime(_month.year, _month.month + 1, 0);
-    final daysToAdd =
-        (intl.firstDayOfWeekIndex - lastDayOfMonth.weekday - 1) % 7;
-    return DateTime(lastDayOfMonth.year, lastDayOfMonth.month,
-        lastDayOfMonth.day + daysToAdd);
-  }
-
-  Iterable<DateTime> getAllDisplayedDays() sync* {
-    final firstDay = getFirstDisplayedDay();
-    final lastDay = getLastDisplayedDay();
-
-    for (var day = firstDay;
-        day.compareTo(lastDay) <= 0;
-        day = DateTime(day.year, day.month, day.day + 1)) {
-      yield day;
-    }
+    return getAllDatesInRange(firstDay, lastDay);
   }
 
   Widget dayNumber(DateTime date) => Center(
