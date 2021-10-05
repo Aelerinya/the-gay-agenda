@@ -1,33 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:the_gay_agenda/services/events.dart';
 import 'package:the_gay_agenda/utils/datetime_helpers.dart';
 
 class MonthView extends StatefulWidget {
-  const MonthView({Key? key}) : super(key: key);
+  final List<Event> events;
+
+  const MonthView({required this.events, Key? key}) : super(key: key);
 
   @override
   _MonthViewState createState() => _MonthViewState();
 }
 
+class DateAndEvents {
+  final DateTime date;
+  final List<Event> events;
+
+  DateAndEvents({required this.date, required this.events});
+}
+
 class _MonthViewState extends State<MonthView> {
   DateTime _month = DateTime.now();
 
-  Iterable<DateTime> getAllDisplayedDays() {
+  Iterable<DateAndEvents> getAllDisplayedDaysAndEvents() {
     final intl = MaterialLocalizations.of(context);
     final firstDay = getStartOfFirstWeekOfMonth(_month,
         firstDayOfWeekIndex: intl.firstDayOfWeekIndex);
     final lastDay = getEndOfLastWeekOfMonth(_month,
         firstDayOfWeekIndex: intl.firstDayOfWeekIndex);
 
-    return getAllDatesInRange(firstDay, lastDay);
+    return getAllDatesInRange(firstDay, lastDay).map((d) => DateAndEvents(
+        date: d,
+        events:
+            widget.events.where((event) => event.happensOnDay(d)).toList()));
   }
 
-  Widget dayNumber(DateTime date) => Center(
-          child: Text(
+  Widget dayNumber({required DateTime date, required List<Event> events}) {
+    final color = date.month == _month.month ? Colors.black : Colors.grey;
+    final eventBullet = Padding(
+        padding: EdgeInsets.all(1),
+        child: Icon(
+          Icons.circle,
+          size: 5,
+          color: color,
+        ));
+    return Column(children: [
+      const Spacer(),
+      Text(
         "${date.day}",
-        style: TextStyle(
-            color: date.month == _month.month ? Colors.black : Colors.grey),
-      ));
+        style: TextStyle(color: color),
+      ),
+      Expanded(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                  events.length.clamp(0, 3), (index) => eventBullet)),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                  (events.length - 3).clamp(0, 3), (index) => eventBullet))
+        ],
+      ))
+    ]);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +94,9 @@ class _MonthViewState extends State<MonthView> {
       GridView.count(
         shrinkWrap: true,
         crossAxisCount: 7,
-        children: getAllDisplayedDays().map((e) => dayNumber(e)).toList(),
+        children: getAllDisplayedDaysAndEvents()
+            .map((v) => dayNumber(date: v.date, events: v.events))
+            .toList(),
       )
     ]);
   }
