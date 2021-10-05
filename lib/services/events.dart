@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:the_gay_agenda/utils/datetime_helpers.dart';
 
 class Event {
@@ -19,5 +20,25 @@ class Event {
       return true;
     }
     return false;
+  }
+
+  String formatDate(MaterialLocalizations localization) {
+    if (end == null) {
+      return localization.formatTimeOfDay(TimeOfDay.fromDateTime(start)) +
+          " " +
+          localization.formatFullDate(start);
+    } else {
+      if (sameDay(start, end!)) {
+        return localization.formatTimeOfDay(TimeOfDay.fromDateTime(start)) +
+            " - " +
+            localization.formatTimeOfDay(TimeOfDay.fromDateTime(end!)) +
+            " " +
+            localization.formatFullDate(start);
+      } else {
+        return localization.formatFullDate(start) +
+            " - " +
+            localization.formatFullDate(end!);
+      }
+    }
   }
 }
