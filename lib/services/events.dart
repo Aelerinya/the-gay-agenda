@@ -41,4 +41,12 @@ class Event {
       }
     }
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': this.name,
+      'start': this.start,
+      'end': this.end,
+    };
+  }
 }
