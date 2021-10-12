@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:the_gay_agenda/screens/home_screen.dart';
-import 'package:the_gay_agenda/utils/database_helpers.dart';
+import 'package:the_gay_agenda/services/database.dart';
+import 'package:the_gay_agenda/services/event_model.dart';
 
 import 'constants/example_events.dart';
 
 void main() async {
   // TODO: remove this later
-  final database = await getEventDatabase();
-  final events = await getEventsFromDatabase(database);
+  final database = await EventDatabase.create();
+  final events = await database.get();
   if (events.isEmpty) {
-    await insertListOfEventsToDatabase(database, exampleEvents);
+    await database.insertList(exampleEvents);
   }
 
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider.value(
+    value: EventModel(database: database),
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
