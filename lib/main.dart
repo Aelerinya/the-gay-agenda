@@ -14,10 +14,9 @@ void main() async {
   await deleteEventFromDatabase(database, 10);
   await updateEventFromDatabase(
       database,
-      1,
       Event(
           id: 1,
-          name: "wørk",
+          name: "børk",
           start: DateTime(2021, 10, 5),
           end: DateTime(2021, 10, 7)));
   runApp(const MyApp());

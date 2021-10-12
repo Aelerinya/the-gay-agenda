@@ -50,8 +50,7 @@ Future<List<Event>> getEventsFromDatabase(Database database) async {
   });
 }
 
-Future<void> updateEventFromDatabase(
-    Database database, int id, Event event) async {
+Future<void> updateEventFromDatabase(Database database, Event event) async {
   await database.update(
     'events',
     event.toMap(),
