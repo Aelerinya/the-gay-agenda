@@ -30,6 +30,8 @@ dependencies:
   animations: ^2.0.1
   flutter:
     sdk: flutter
+  sqflite:
+  path:
 
 dev_dependencies:
   flutter_test:

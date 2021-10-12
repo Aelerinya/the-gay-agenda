@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:the_gay_agenda/utils/datetime_helpers.dart';
 
 class Event {
+  final int id;
   final String name;
   final DateTime start;
   final DateTime? end;
 
-  Event({required this.name, required this.start, this.end})
+  Event({required this.id, required this.name, required this.start, this.end})
       : assert(end == null || end.compareTo(start) >= 0);
 
   bool happensOnDay(DateTime day) {
@@ -40,5 +41,14 @@ class Event {
             localization.formatFullDate(end!);
       }
     }
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'start': start.toIso8601String(),
+      'end': end != null ? end!.toIso8601String() : '',
+    };
   }
 }
