@@ -11,7 +11,7 @@ Future<Database> getEventDatabase() async {
     join(await getDatabasesPath(), 'event_database.db'),
     onCreate: (db, version) {
       return db.execute(
-        'CREATE TABLE events(name TEXT, start TEXT, end TEXT)',
+        'CREATE TABLE events(id INTEGER PRIMARY KEY, name TEXT, start TEXT, end TEXT)',
       );
     },
     version: 1,
@@ -42,6 +42,7 @@ Future<List<Event>> getEventsFromDatabase(Database database) async {
       await database.query('events');
   return List.generate(queryResults.length, (i) {
     return Event(
+      id: queryResults[i]['id'],
       name: queryResults[i]['name'],
       start: DateTime.parse(queryResults[i]['start']),
       end: DateTime.tryParse(queryResults[i]['end']),
@@ -50,23 +51,23 @@ Future<List<Event>> getEventsFromDatabase(Database database) async {
 }
 
 Future<void> updateEventFromDatabase(
-    Database database, String name, Event event) async {
+    Database database, int id, Event event) async {
   await database.update(
     'events',
     event.toMap(),
-    where: 'name = ?',
-    whereArgs: [event.name],
+    where: 'id = ?',
+    whereArgs: [event.id],
   );
 }
 
 Future<void> deleteEventFromDatabase(
   Database database,
-  String name,
+  int id,
   Event event,
 ) async {
   await database.delete(
     'events',
-    where: 'name = ?',
-    whereArgs: [name],
+    where: 'id = ?',
+    whereArgs: [id],
   );
 }

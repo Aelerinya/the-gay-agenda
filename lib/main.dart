@@ -6,7 +6,8 @@ import 'constants/example_events.dart';
 
 void main() async {
   final database = await getEventDatabase();
-  if (await getEventsFromDatabase(database) == []) {
+  final events = await getEventsFromDatabase(database);
+  if (events.isEmpty) {
     await insertListOfEventsToDatabase(database, exampleEvents);
   }
   runApp(const MyApp());
