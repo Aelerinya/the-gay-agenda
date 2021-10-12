@@ -26,14 +26,25 @@ Future<void> insertEventToDatabase(Database database, Event event) async {
   );
 }
 
+Future<void> insertListOfEventsToDatabase(
+    Database database, List<Event> events) async {
+  for (var event in events) {
+    await database.insert(
+      'events',
+      event.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+}
+
 Future<List<Event>> getEventsFromDatabase(Database database) async {
   final List<Map<String, dynamic>> queryResults =
       await database.query('events');
   return List.generate(queryResults.length, (i) {
     return Event(
       name: queryResults[i]['name'],
-      start: queryResults[i]['start'],
-      end: queryResults[i]['end'],
+      start: DateTime.parse(queryResults[i]['start']),
+      end: DateTime.tryParse(queryResults[i]['end']),
     );
   });
 }

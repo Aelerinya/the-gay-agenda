@@ -44,9 +44,9 @@ class Event {
 
   Map<String, dynamic> toMap() {
     return {
-      'name': this.name,
-      'start': this.start,
-      'end': this.end,
+      'name': name,
+      'start': start.toIso8601String(),
+      'end': end != null ? end!.toIso8601String() : '',
     };
   }
 }

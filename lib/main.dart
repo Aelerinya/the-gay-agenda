@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:the_gay_agenda/screens/home_screen.dart';
+import 'package:the_gay_agenda/utils/database_helpers.dart';
 
-void main() {
+import 'constants/example_events.dart';
+
+void main() async {
+  final database = await getEventDatabase();
+  await insertListOfEventsToDatabase(database, exampleEvents);
   runApp(const MyApp());
 }
 
