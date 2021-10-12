@@ -1,24 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:the_gay_agenda/screens/home_screen.dart';
-import 'package:the_gay_agenda/services/events.dart';
 import 'package:the_gay_agenda/utils/database_helpers.dart';
 
 import 'constants/example_events.dart';
 
 void main() async {
+  // TODO: remove this later
   final database = await getEventDatabase();
   final events = await getEventsFromDatabase(database);
   if (events.isEmpty) {
     await insertListOfEventsToDatabase(database, exampleEvents);
   }
-  await deleteEventFromDatabase(database, 10);
-  await updateEventFromDatabase(
-      database,
-      Event(
-          id: 1,
-          name: "børk",
-          start: DateTime(2021, 10, 5),
-          end: DateTime(2021, 10, 7)));
+
   runApp(const MyApp());
 }
 
