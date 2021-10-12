@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:the_gay_agenda/services/events.dart';
 import 'package:the_gay_agenda/screens/create_event.dart';
+import 'package:the_gay_agenda/services/events.dart';
+import 'package:the_gay_agenda/widgets/drawer.dart';
 import 'package:the_gay_agenda/widgets/month_view.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -15,6 +16,7 @@ class HomeScreen extends StatelessWidget {
       body: ValueListenableBuilder(
           valueListenable: Hive.box<Event>("events").listenable(),
           builder: (_, Box<Event> box, __) => MonthView(events: box.values)),
+      drawer: drawer(context),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(context,
