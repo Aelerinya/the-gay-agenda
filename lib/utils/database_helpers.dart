@@ -60,11 +60,7 @@ Future<void> updateEventFromDatabase(
   );
 }
 
-Future<void> deleteEventFromDatabase(
-  Database database,
-  int id,
-  Event event,
-) async {
+Future<void> deleteEventFromDatabase(Database database, int id) async {
   await database.delete(
     'events',
     where: 'id = ?',
