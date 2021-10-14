@@ -15,8 +15,7 @@ class HomeScreen extends StatelessWidget {
         ),
         body: ValueListenableBuilder(
           valueListenable: Hive.box<Event>("events").listenable(),
-          builder: (_, Box<Event> box, __) =>
-              MonthView(events: box.values.toList()),
+          builder: (_, Box<Event> box, __) => MonthView(events: box.values),
         ),
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
