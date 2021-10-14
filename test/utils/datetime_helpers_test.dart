@@ -3,32 +3,32 @@ import 'package:the_gay_agenda/utils/datetime_helpers.dart';
 
 void main() {
   test("getStartOfFirstWeekOfMonth", () {
-    expect(getStartOfFirstWeekOfMonth(DateTime(2021, 10, 5)),
+    expect(DateTime(2021, 10, 5).getStartOfFirstWeekOfMonth(),
         equals(DateTime(2021, 09, 26)));
     expect(
-        getStartOfFirstWeekOfMonth(DateTime(2021, 10, 5),
-            firstDayOfWeekIndex: 1),
+        DateTime(2021, 10, 5)
+            .getStartOfFirstWeekOfMonth(firstDayOfWeekIndex: 1),
         equals(DateTime(2021, 09, 27)));
     expect(
-        getStartOfFirstWeekOfMonth(DateTime(2021, 11, 1),
-            firstDayOfWeekIndex: 1),
+        DateTime(2021, 11, 1)
+            .getStartOfFirstWeekOfMonth(firstDayOfWeekIndex: 1),
         equals(DateTime(2021, 11, 1)));
   });
 
   test("getEndOfLastWeekOfMonth", () {
-    expect(getEndOfLastWeekOfMonth(DateTime(2021, 10, 5)),
+    expect(DateTime(2021, 10, 5).getEndOfLastWeekOfMonth(),
         equals(DateTime(2021, 11, 06)));
     expect(
-        getEndOfLastWeekOfMonth(DateTime(2021, 11, 30), firstDayOfWeekIndex: 1),
+        DateTime(2021, 11, 30).getEndOfLastWeekOfMonth(firstDayOfWeekIndex: 1),
         equals(DateTime(2021, 12, 5)));
     expect(
-        getEndOfLastWeekOfMonth(DateTime(2021, 10, 5), firstDayOfWeekIndex: 1),
+        DateTime(2021, 10, 5).getEndOfLastWeekOfMonth(firstDayOfWeekIndex: 1),
         equals(DateTime(2021, 10, 31)));
   });
 
-  test("getAllDatesInRange", () {
+  test("getAllDaysUntil", () {
     expect(
-        getAllDatesInRange(DateTime(2021, 01, 01), DateTime(2021, 01, 04)),
+        DateTime(2021, 01, 01).getAllDaysUntil(DateTime(2021, 01, 04)),
         equals([
           DateTime(2021, 01, 01),
           DateTime(2021, 01, 02),

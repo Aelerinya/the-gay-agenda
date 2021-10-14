@@ -26,15 +26,15 @@ class _MonthViewState extends State<MonthView> {
 
   Iterable<DateAndEvents> getAllDisplayedDaysAndEvents() {
     final intl = MaterialLocalizations.of(context);
-    final firstDay = getStartOfFirstWeekOfMonth(_month,
+    final firstDay = _month.getStartOfFirstWeekOfMonth(
         firstDayOfWeekIndex: intl.firstDayOfWeekIndex);
-    final lastDay = getEndOfLastWeekOfMonth(_month,
+    final lastDay = _month.getEndOfLastWeekOfMonth(
         firstDayOfWeekIndex: intl.firstDayOfWeekIndex);
 
-    return getAllDatesInRange(firstDay, lastDay).map((d) => DateAndEvents(
-        date: d,
+    return firstDay.getAllDaysUntil(lastDay).map((day) => DateAndEvents(
+        date: day,
         events:
-            widget.events.where((event) => event.happensOnDay(d)).toList()));
+            widget.events.where((event) => event.happensOnDay(day)).toList()));
   }
 
   Widget dayNumber({required DateTime date, required List<Event> events}) {

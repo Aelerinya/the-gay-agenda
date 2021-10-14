@@ -11,10 +11,10 @@ class Event {
       : assert(end == null || end.compareTo(start) >= 0);
 
   bool happensOnDay(DateTime day) {
-    if (sameDay(day, start)) {
+    if (start.date == day.date) {
       return true;
     }
-    if (end != null && sameDay(day, end!)) {
+    if (end != null && end!.date == day.date) {
       return true;
     }
     if (end != null && start.compareTo(day) <= 0 && end!.compareTo(day) >= 0) {
@@ -29,7 +29,7 @@ class Event {
           " " +
           localization.formatFullDate(start);
     } else {
-      if (sameDay(start, end!)) {
+      if (start.date == end!.date) {
         return localization.formatTimeOfDay(TimeOfDay.fromDateTime(start)) +
             " - " +
             localization.formatTimeOfDay(TimeOfDay.fromDateTime(end!)) +
