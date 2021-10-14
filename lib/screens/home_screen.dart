@@ -10,22 +10,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("The Gay Agenda"),
-        ),
+        appBar: AppBar(title: const Text("The Gay Agenda")),
         body: ValueListenableBuilder(
-          valueListenable: Hive.box<Event>("events").listenable(),
-          builder: (_, Box<Event> box, __) => MonthView(events: box.values),
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
-          onPressed: () {
-            final events = Hive.box<Event>("events");
-            events.add(Event(
-              name: "Event #${events.length}",
-              start: DateTime.now(),
-            ));
-          },
-        ));
+            valueListenable: Hive.box<Event>("events").listenable(),
+            builder: (_, Box<Event> box, __) => MonthView(events: box.values)));
   }
 }

@@ -5,7 +5,7 @@ import 'package:the_gay_agenda/utils/datetime_helpers.dart';
 part 'events.g.dart';
 
 @HiveType(typeId: 0)
-class Event {
+class Event extends HiveObject {
   @HiveField(0)
   final String name;
   @HiveField(1)
@@ -21,14 +21,25 @@ class Event {
         end != null && start.isBefore(day) && !end!.isBefore(day.date);
   }
 
-  String formatDate(MaterialLocalizations l10n) {
-    return l10n.formatTimeOfDay(start.time) +
-        (start.date != end?.date ? " " + l10n.formatFullDate(start) : "") +
-        (end != null
-            ? " - " +
-                l10n.formatTimeOfDay(end!.time) +
-                " " +
-                l10n.formatFullDate(end!)
-            : "");
+  String formatDate(MaterialLocalizations localizations) {
+    if (end == null) {
+      return localizations.formatTimeOfDay(start.time) +
+          " " +
+          localizations.formatFullDate(start);
+    } else if (start.date == end!.date) {
+      return localizations.formatTimeOfDay(start.time) +
+          " - " +
+          localizations.formatTimeOfDay(end!.time) +
+          " " +
+          localizations.formatFullDate(end!);
+    } else {
+      return localizations.formatTimeOfDay(start.time) +
+          " " +
+          localizations.formatFullDate(start) +
+          " - " +
+          localizations.formatTimeOfDay(end!.time) +
+          " " +
+          localizations.formatFullDate(end!);
+    }
   }
 }
