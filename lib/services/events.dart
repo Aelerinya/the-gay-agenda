@@ -2,53 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:the_gay_agenda/utils/datetime_helpers.dart';
 
 class Event {
-  final int id;
   final String name;
   final DateTime start;
   final DateTime? end;
 
-  Event({required this.id, required this.name, required this.start, this.end})
-      : assert(end == null || end.compareTo(start) >= 0);
+  Event({required this.name, required this.start, this.end})
+      : assert(end == null || !end.isBefore(start));
 
   bool happensOnDay(DateTime day) {
-    if (start.date == day.date) {
-      return true;
-    }
-    if (end != null && end!.date == day.date) {
-      return true;
-    }
-    if (end != null && start.compareTo(day) <= 0 && end!.compareTo(day) >= 0) {
-      return true;
-    }
-    return false;
+    return start.date == day.date ||
+        end != null && start.isBefore(day) && !end!.isBefore(day.date);
   }
 
-  String formatDate(MaterialLocalizations localization) {
-    if (end == null) {
-      return localization.formatTimeOfDay(TimeOfDay.fromDateTime(start)) +
-          " " +
-          localization.formatFullDate(start);
-    } else {
-      if (start.date == end!.date) {
-        return localization.formatTimeOfDay(TimeOfDay.fromDateTime(start)) +
-            " - " +
-            localization.formatTimeOfDay(TimeOfDay.fromDateTime(end!)) +
-            " " +
-            localization.formatFullDate(start);
-      } else {
-        return localization.formatFullDate(start) +
-            " - " +
-            localization.formatFullDate(end!);
-      }
-    }
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'name': name,
-      'start': start.toIso8601String(),
-      'end': end != null ? end!.toIso8601String() : '',
-    };
+  String formatDate(MaterialLocalizations l10n) {
+    return l10n.formatTimeOfDay(start.time) +
+        (start.date != end?.date ? " " + l10n.formatFullDate(start) : "") +
+        (end != null
+            ? " - " +
+                l10n.formatTimeOfDay(end!.time) +
+                " " +
+                l10n.formatFullDate(end!)
+            : "");
   }
 }
