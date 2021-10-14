@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:the_gay_agenda/utils/datetime_helpers.dart';
 
+part 'events.g.dart';
+
+@HiveType(typeId: 0)
 class Event {
+  @HiveField(0)
   final String name;
+  @HiveField(1)
   final DateTime start;
+  @HiveField(2)
   final DateTime? end;
 
   Event({required this.name, required this.start, this.end})
