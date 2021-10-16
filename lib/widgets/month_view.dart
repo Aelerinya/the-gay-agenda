@@ -6,7 +6,7 @@ import 'package:the_gay_agenda/services/events.dart';
 import 'package:the_gay_agenda/utils/datetime_helpers.dart';
 
 class MonthView extends StatefulWidget {
-  final List<Event> events;
+  final Iterable<Event> events;
 
   const MonthView({required this.events, Key? key}) : super(key: key);
 
@@ -16,7 +16,7 @@ class MonthView extends StatefulWidget {
 
 class DateAndEvents {
   final DateTime date;
-  final List<Event> events;
+  final Iterable<Event> events;
 
   DateAndEvents({required this.date, required this.events});
 }
@@ -26,18 +26,17 @@ class _MonthViewState extends State<MonthView> {
 
   Iterable<DateAndEvents> getAllDisplayedDaysAndEvents() {
     final intl = MaterialLocalizations.of(context);
-    final firstDay = getStartOfFirstWeekOfMonth(_month,
+    final firstDay = _month.getStartOfFirstWeekOfMonth(
         firstDayOfWeekIndex: intl.firstDayOfWeekIndex);
-    final lastDay = getEndOfLastWeekOfMonth(_month,
+    final lastDay = _month.getEndOfLastWeekOfMonth(
         firstDayOfWeekIndex: intl.firstDayOfWeekIndex);
 
-    return getAllDatesInRange(firstDay, lastDay).map((d) => DateAndEvents(
-        date: d,
-        events:
-            widget.events.where((event) => event.happensOnDay(d)).toList()));
+    return firstDay.getAllDaysUntil(lastDay).map((day) => DateAndEvents(
+        date: day,
+        events: widget.events.where((event) => event.happensOnDay(day))));
   }
 
-  Widget dayNumber({required DateTime date, required List<Event> events}) {
+  Widget dayNumber({required DateTime date, required Iterable<Event> events}) {
     final color = date.month == _month.month ? Colors.black : Colors.grey;
     final eventBullet = Padding(
         padding: const EdgeInsets.all(1),
