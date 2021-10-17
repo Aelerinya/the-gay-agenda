@@ -3,9 +3,14 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:the_gay_agenda/services/user.dart';
 
 class ProfilePicturePicker extends StatefulWidget {
-  const ProfilePicturePicker({Key? key}) : super(key: key);
+  final User user;
+  const ProfilePicturePicker({
+    required this.user,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _ProfilePicturePickerState createState() => _ProfilePicturePickerState();
@@ -14,7 +19,6 @@ class ProfilePicturePicker extends StatefulWidget {
 enum ImageSourceType { gallery, camera }
 
 class _ProfilePicturePickerState extends State<ProfilePicturePicker> {
-  var _image = File('');
   final _imagePicker = ImagePicker();
 
   @override
@@ -25,8 +29,8 @@ class _ProfilePicturePickerState extends State<ProfilePicturePicker> {
             width: 200,
             height: 200,
             child: CircleAvatar(
-                foregroundImage: _image != File('')
-                    ? Image.file(_image).image
+                foregroundImage: widget.user.imagePath != ''
+                    ? Image.file(File(widget.user.imagePath)).image
                     : const NetworkImage(''),
                 backgroundImage: const NetworkImage(
                     'https://cdn-icons-png.flaticon.com/512/20/20079.png'))),
@@ -42,7 +46,8 @@ class _ProfilePicturePickerState extends State<ProfilePicturePicker> {
                       imageQuality: 50,
                       preferredCameraDevice: CameraDevice.front);
                   setState(() {
-                    _image = File(image!.path);
+                    widget.user.imagePath = image!.path;
+                    widget.user.save();
                   });
                 },
                 child: const Text('From Gallery'),
@@ -54,7 +59,8 @@ class _ProfilePicturePickerState extends State<ProfilePicturePicker> {
                         imageQuality: 50,
                         preferredCameraDevice: CameraDevice.front);
                     setState(() {
-                      _image = File(image!.path);
+                      widget.user.imagePath = image!.path;
+                      widget.user.save();
                     });
                   },
                   child: const Text('From Camera')),

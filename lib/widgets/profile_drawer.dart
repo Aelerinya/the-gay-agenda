@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:the_gay_agenda/screens/home_screen.dart';
 import 'package:the_gay_agenda/screens/settings.dart';
+import 'package:the_gay_agenda/services/user.dart';
 
 class ProfileDrawer extends StatelessWidget {
-  const ProfileDrawer({Key? key}) : super(key: key);
+  final User user;
+  const ProfileDrawer({required this.user, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,18 +15,18 @@ class ProfileDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const UserAccountsDrawerHeader(
+          UserAccountsDrawerHeader(
             currentAccountPicture: CircleAvatar(
-              // TODO: Add Image from camera
-              backgroundImage: NetworkImage(
-                  'https://cdn.discordapp.com/avatars/132917155468541952/58daa0ef5c60904f6387e061e1575408.webp'),
-            ),
-            // TODO: Add Profile info
+                foregroundImage: user.imagePath != ''
+                    ? Image.file(File(user.imagePath)).image
+                    : const NetworkImage(''),
+                backgroundImage: const NetworkImage(
+                    'https://cdn-icons-png.flaticon.com/512/20/20079.png')),
             accountName: Text(
-              'Dit Scord',
-              style: TextStyle(fontSize: 24.0),
+              user.getName(),
+              style: const TextStyle(fontSize: 24.0),
             ),
-            accountEmail: Text('example@example.com'),
+            accountEmail: Text(user.email),
           ),
           ListTile(
             leading: const Icon(Icons.house_outlined),
