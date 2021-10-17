@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:the_gay_agenda/utils/datetime_helpers.dart';
 import 'package:the_gay_agenda/screens/create_event.dart';
 import 'package:the_gay_agenda/services/events.dart';
 
@@ -8,13 +9,13 @@ class EventDetails extends StatelessWidget {
   const EventDetails({required this.event, Key? key}) : super(key: key);
 
   Widget getFormattedDate(
-          MaterialLocalizations localization, String prefix, DateTime date) =>
+          MaterialLocalizations localizations, String prefix, DateTime date) =>
       Text(
         prefix +
             " " +
-            localization.formatTimeOfDay(TimeOfDay.fromDateTime(event.start)) +
+            localizations.formatTimeOfDay(event.start.time) +
             " " +
-            localization.formatFullDate(event.start),
+            localizations.formatFullDate(event.start),
         style: const TextStyle(fontSize: 16),
       );
 
@@ -30,9 +31,7 @@ class EventDetails extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => CreateEvent(
-                              eventToEdit: event,
-                            )));
+                        builder: (context) => CreateEvent(eventToEdit: event)));
               },
               icon: const Icon(Icons.edit)),
           IconButton(
@@ -51,16 +50,12 @@ class EventDetails extends StatelessWidget {
               Text("Event: " + event.name,
                   style: const TextStyle(fontSize: 20)),
               const SizedBox(height: 10),
-              getFormattedDate(localization,
-                  (event.end == null ? "On" : "From"), event.start),
-              ...(event.end != null
-                  ? [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      getFormattedDate(localization, "To", event.end!)
-                    ]
-                  : [])
+              getFormattedDate(
+                  localization, event.end != null ? "From" : "On", event.start),
+              if (event.end != null) ...{
+                const SizedBox(height: 10),
+                getFormattedDate(localization, "To", event.end!),
+              }
             ],
           )),
     );
