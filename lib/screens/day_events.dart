@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:the_gay_agenda/screens/event_details.dart';
 import 'package:the_gay_agenda/services/events.dart';
 
 class DayEventsScreen extends StatelessWidget {
@@ -13,13 +14,20 @@ class DayEventsScreen extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  Widget eventWidget(Event event) {
+  Widget eventWidget(BuildContext context, Event event) {
     return Padding(
         padding: const EdgeInsets.all(5),
-        child: Card(
-            child: ListTile(
-                title: Text(event.name),
-                subtitle: Text(event.formatDate(locale)))));
+        child: InkResponse(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => EventDetails(event: event)));
+            },
+            child: Card(
+                child: ListTile(
+                    title: Text(event.name),
+                    subtitle: Text(event.formatDate(locale))))));
   }
 
   @override
@@ -27,6 +35,7 @@ class DayEventsScreen extends StatelessWidget {
     final locale = MaterialLocalizations.of(context);
     return Scaffold(
         appBar: AppBar(title: Text(locale.formatFullDate(date))),
-        body: ListView(children: events.map((e) => eventWidget(e)).toList()));
+        body: ListView(
+            children: events.map((e) => eventWidget(context, e)).toList()));
   }
 }
