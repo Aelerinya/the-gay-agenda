@@ -30,6 +30,11 @@ dependencies:
   animations: ^2.0.1
   flutter:
     sdk: flutter
+  sqflite:
+  path:
+  image_picker:
+  path_provider:
+  provider: ^6.0.1
   hive_flutter: ^1.1.0
 
 dev_dependencies:

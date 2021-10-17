@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:the_gay_agenda/widgets/profile_picture_picker.dart';
 
 class ProfileForm extends StatefulWidget {
   const ProfileForm({Key? key}) : super(key: key);
@@ -14,9 +15,7 @@ class User {
   String email = '';
   String photoPath = '';
 
-  save() {
-    print(this);
-  }
+  save() {}
 }
 
 class _ProfileFormState extends State<ProfileForm> {
@@ -35,12 +34,13 @@ class _ProfileFormState extends State<ProfileForm> {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
+                          const ProfilePicturePicker(),
                           TextFormField(
                             decoration:
                                 const InputDecoration(labelText: 'First name'),
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'Please entre your first name';
+                                return 'Please enter your first name';
                               }
                             },
                             onSaved: (value) =>
@@ -51,7 +51,7 @@ class _ProfileFormState extends State<ProfileForm> {
                                 const InputDecoration(labelText: 'Last name'),
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'Please entre your last name';
+                                return 'Please enter your last name';
                               }
                             },
                             onSaved: (value) =>
@@ -62,7 +62,7 @@ class _ProfileFormState extends State<ProfileForm> {
                                 const InputDecoration(labelText: 'Email'),
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'Please entre your email';
+                                return 'Please enter your email';
                               }
                             },
                             onSaved: (value) =>
