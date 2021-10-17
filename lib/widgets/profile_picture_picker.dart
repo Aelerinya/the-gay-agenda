@@ -12,8 +12,6 @@ class ProfilePicturePicker extends StatefulWidget {
   _ProfilePicturePickerState createState() => _ProfilePicturePickerState();
 }
 
-enum ImageSourceType { gallery, camera }
-
 class _ProfilePicturePickerState extends State<ProfilePicturePicker> {
   final _imagePicker = ImagePicker();
 

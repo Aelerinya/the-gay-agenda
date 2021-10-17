@@ -20,6 +20,9 @@ void main() async {
         email: 'jane@doe.de',
         imagePath: ''));
   }
+  final settings = await Hive.openBox('settings');
+  if (settings.isEmpty) settings.put('color', 0xff443a49);
+
   runApp(const MyApp());
 }
 
@@ -31,7 +34,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'The Gay Agenda',
-        theme: ThemeData(primarySwatch: Colors.blue),
+        theme: ThemeData(
+            primarySwatch: MaterialColor(Hive.box('settings').get('color'), {
+          50: Color(Hive.box('settings').get('color')).withOpacity(.1),
+          100: Color(Hive.box('settings').get('color')).withOpacity(.2),
+          200: Color(Hive.box('settings').get('color')).withOpacity(.3),
+          300: Color(Hive.box('settings').get('color')).withOpacity(.4),
+          400: Color(Hive.box('settings').get('color')).withOpacity(.5),
+          500: Color(Hive.box('settings').get('color')).withOpacity(.6),
+          600: Color(Hive.box('settings').get('color')).withOpacity(.7),
+          700: Color(Hive.box('settings').get('color')).withOpacity(.8),
+          800: Color(Hive.box('settings').get('color')).withOpacity(.9),
+          900: Color(Hive.box('settings').get('color')).withOpacity(1),
+        })),
         home: const HomeScreen());
   }
 }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:the_gay_agenda/screens/home_screen.dart';
+import 'package:the_gay_agenda/screens/profile.dart';
 import 'package:the_gay_agenda/screens/settings.dart';
 import 'package:the_gay_agenda/services/user.dart';
 
@@ -35,6 +36,16 @@ class ProfileDrawer extends StatelessWidget {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const HomeScreen()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.person),
+            title: const Text('Profile'),
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const Profile()),
               );
             },
           ),
