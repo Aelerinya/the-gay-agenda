@@ -24,11 +24,9 @@ class _ColorPickerState extends State<ColorPicker> {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text('Pick a color!',
+                    title: const Text('Pick a color!',
                         style: TextStyle(
-                          color: useWhiteForeground(pickerColor)
-                              ? const Color(0xffffffff)
-                              : const Color(0xff000000),
+                          color: Color(0xff000000),
                         )),
                     content: SingleChildScrollView(
                       child: MaterialPicker(
@@ -38,11 +36,9 @@ class _ColorPickerState extends State<ColorPicker> {
                     ),
                     actions: <Widget>[
                       TextButton(
-                        child: Text('Change it!',
+                        child: const Text('Change it!',
                             style: TextStyle(
-                              color: useWhiteForeground(pickerColor)
-                                  ? const Color(0xffffffff)
-                                  : const Color(0xff000000),
+                              color: Color(0xff000000),
                             )),
                         onPressed: () {
                           Hive.box('settings').put('color', pickerColor.value);
