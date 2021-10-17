@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:hive_flutter/adapters.dart';
 
 part 'user.g.dart';
