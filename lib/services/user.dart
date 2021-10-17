@@ -1,4 +1,4 @@
-import 'package:hive_flutter/adapters.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 part 'user.g.dart';
 
@@ -13,11 +13,12 @@ class User extends HiveObject {
   @HiveField(3)
   String imagePath;
 
-  User(
-      {required this.firstName,
-      required this.lastName,
-      required this.email,
-      required this.imagePath});
+  User({
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.imagePath,
+  });
 
-  String getName() => firstName + ' ' + lastName;
+  String getName() => "$firstName $lastName";
 }

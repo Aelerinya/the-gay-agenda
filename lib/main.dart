@@ -12,7 +12,7 @@ void main() async {
   Hive.registerAdapter(UserAdapter());
   final events = await Hive.openBox<Event>("events");
   if (events.isEmpty) events.addAll(exampleEvents);
-  final users = await Hive.openBox<User>('user');
+  final users = await Hive.openBox<User>('users');
   if (users.isEmpty) {
     users.add(User(
         firstName: 'Jane',

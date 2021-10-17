@@ -17,14 +17,14 @@ class ProfileDrawer extends StatelessWidget {
         children: [
           UserAccountsDrawerHeader(
             currentAccountPicture: CircleAvatar(
-                foregroundImage: user.imagePath != ''
+                foregroundImage: user.imagePath.isNotEmpty
                     ? Image.file(File(user.imagePath)).image
                     : const NetworkImage(''),
                 backgroundImage: const NetworkImage(
                     'https://cdn-icons-png.flaticon.com/512/20/20079.png')),
             accountName: Text(
               user.getName(),
-              style: const TextStyle(fontSize: 24.0),
+              style: const TextStyle(fontSize: 24),
             ),
             accountEmail: Text(user.email),
           ),

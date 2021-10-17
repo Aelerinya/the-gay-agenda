@@ -15,10 +15,9 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text("The Gay Agenda")),
       drawer: ValueListenableBuilder(
-        valueListenable: Hive.box<User>("user").listenable(),
-        builder: (_, Box<User> box, __) =>
-            ProfileDrawer(user: box.values.first),
-      ),
+          valueListenable: Hive.box<User>("users").listenable(),
+          builder: (_, Box<User> box, __) =>
+              ProfileDrawer(user: box.values.first)),
       body: ValueListenableBuilder(
           valueListenable: Hive.box<Event>("events").listenable(),
           builder: (_, Box<Event> box, __) => MonthView(events: box.values)),

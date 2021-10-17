@@ -17,7 +17,7 @@ class _ProfileFormState extends State<ProfileForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+        padding: const EdgeInsets.all(16),
         child: Builder(
             builder: (context) => Form(
                 key: _formKey,
@@ -60,8 +60,7 @@ class _ProfileFormState extends State<ProfileForm> {
                             setState(() => widget.user.email = value!),
                       ),
                       Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 16.0, horizontal: 16.0),
+                          padding: const EdgeInsets.all(16),
                           child: ElevatedButton(
                               onPressed: () {
                                 final form = _formKey.currentState;
