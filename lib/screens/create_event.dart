@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:hive_flutter/adapters.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:the_gay_agenda/services/events.dart';
 
 class CreateEvent extends StatefulWidget {
@@ -37,7 +37,7 @@ class _CreateEventState extends State<CreateEvent> {
                         _name = value;
                       },
                     ),
-                    const Padding(padding: EdgeInsets.all(5)),
+                    const SizedBox(height: 10),
                     TextFormField(
                       initialValue: widget.eventToEdit?.start.toString() ??
                           DateTime.now().toString(),
@@ -56,7 +56,7 @@ class _CreateEventState extends State<CreateEvent> {
                         _start = DateTime.parse(value!);
                       },
                     ),
-                    const Padding(padding: EdgeInsets.all(5)),
+                    const SizedBox(height: 10),
                     TextFormField(
                       initialValue: widget.eventToEdit?.end.toString() ??
                           DateTime.now().toString(),
@@ -76,7 +76,7 @@ class _CreateEventState extends State<CreateEvent> {
                             : null;
                       },
                     ),
-                    const Padding(padding: EdgeInsets.all(5)),
+                    const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
@@ -87,11 +87,7 @@ class _CreateEventState extends State<CreateEvent> {
                               Event(name: _name!, start: _start!, end: _end));
 
                           // If we were updating an event, remove the old one
-                          final eventToEdit = widget.eventToEdit;
-                          if (eventToEdit != null) {
-                            eventToEdit.delete();
-                          }
-
+                          widget.eventToEdit?.delete();
                           Navigator.pop(context);
                         }
                       },
