@@ -21,8 +21,7 @@ void main() async {
         imagePath: ''));
   }
   final settings = await Hive.openBox('settings');
-  if (settings.isEmpty) settings.put('color', 0xff443a49);
-
+  if (settings.isEmpty) settings.put('color', 0xfff7a8b8);
   runApp(const MyApp());
 }
 
