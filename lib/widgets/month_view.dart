@@ -62,10 +62,9 @@ class _MonthViewState extends State<MonthView> {
                   final itemsNbMax = (constraints.maxWidth / 7).floor() *
                       (constraints.maxHeight / 7).floor();
                   final itemsNb = events.length.clamp(0, itemsNbMax);
-                  final itemsRatio = constraints.biggest.aspectRatio * 2;
 
                   return SizedBox(
-                      width: sqrt(itemsNb / itemsRatio) * itemsRatio * 7,
+                      width: sqrt(itemsNb / 2.5) * 2.5 * 7,
                       child: WrapSuper(
                         spacing: 2,
                         lineSpacing: 2,
@@ -82,43 +81,39 @@ class _MonthViewState extends State<MonthView> {
   Widget build(BuildContext context) {
     final intl = MaterialLocalizations.of(context);
 
-    return AspectRatio(
-        aspectRatio: 1,
-        child: Column(
+    return Column(
+      children: [
+        Row(
           children: [
-            ColoredBox(
-                color: Theme.of(context).primaryColor,
-                child: Row(
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _month = DateTime(_month.year, _month.month - 1);
-                          });
-                        },
-                        icon: const Icon(Icons.arrow_left)),
-                    Text(intl.formatMonthYear(_month)),
-                    IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _month = DateTime(_month.year, _month.month + 1);
-                          });
-                        },
-                        icon: const Icon(Icons.arrow_right))
-                  ],
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                )),
-            AspectRatio(
-                aspectRatio: 7 / 6,
-                child: GridView.count(
-                    crossAxisCount: 7,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10,
-                    children: getAllDisplayedDaysAndEvents()
-                        .map((v) => dayNumber(date: v.date, events: v.events))
-                        .toList()))
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    _month = DateTime(_month.year, _month.month - 1);
+                  });
+                },
+                icon: const Icon(Icons.arrow_left)),
+            Text(intl.formatMonthYear(_month)),
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    _month = DateTime(_month.year, _month.month + 1);
+                  });
+                },
+                icon: const Icon(Icons.arrow_right))
           ],
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-        ));
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        ),
+        Flexible(
+            child: GridView.count(
+                crossAxisCount: 7,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                children: getAllDisplayedDaysAndEvents()
+                    .map((v) => dayNumber(date: v.date, events: v.events))
+                    .toList()))
+      ],
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+    );
   }
 }

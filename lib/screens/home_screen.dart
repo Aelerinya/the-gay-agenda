@@ -18,13 +18,9 @@ class HomeScreen extends StatelessWidget {
             valueListenable: Hive.box<User>("users").listenable(),
             builder: (_, Box<User> box, __) =>
                 ProfileDrawer(user: box.values.first)),
-        body: Container(
-            padding: const EdgeInsets.all(25),
-            alignment: Alignment.center,
-            child: ValueListenableBuilder(
-                valueListenable: Hive.box<Event>("events").listenable(),
-                builder: (_, Box<Event> box, __) =>
-                    MonthView(events: box.values))),
+        body: ValueListenableBuilder(
+            valueListenable: Hive.box<Event>("events").listenable(),
+            builder: (_, Box<Event> box, __) => MonthView(events: box.values)),
         floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.add),
             onPressed: () {
