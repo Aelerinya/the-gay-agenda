@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:the_gay_agenda/screens/day_events.dart';
 import 'package:the_gay_agenda/services/events.dart';
 import 'package:the_gay_agenda/utils/datetime_helpers.dart';
@@ -28,51 +31,48 @@ class _MonthViewState extends State<MonthView> {
     final intl = MaterialLocalizations.of(context);
     final firstDay = _month.getStartOfFirstWeekOfMonth(
         firstDayOfWeekIndex: intl.firstDayOfWeekIndex);
-    final lastDay = _month.getEndOfLastWeekOfMonth(
-        firstDayOfWeekIndex: intl.firstDayOfWeekIndex);
 
-    return firstDay.getAllDaysUntil(lastDay).map((day) => DateAndEvents(
-        date: day,
-        events: widget.events.where((event) => event.happensOnDay(day))));
+    return Iterable.generate(7 * 6, (index) {
+      final day = DateTime(firstDay.year, firstDay.month, firstDay.day + index);
+      return DateAndEvents(
+          date: day,
+          events: widget.events.where((event) => event.happensOnDay(day)));
+    });
   }
 
   Widget dayNumber({required DateTime date, required Iterable<Event> events}) {
-    final color = date.month == _month.month ? Colors.black : Colors.grey;
-    final eventBullet = Padding(
-        padding: const EdgeInsets.all(1),
-        child: Icon(
-          Icons.circle,
-          size: 5,
-          color: color,
-        ));
+    final color = date.month != _month.month ? Colors.grey : null;
+
     return OpenContainer(
-        // onTap: () => Navigator.of(context)
-        //     .push(DayEventsScreen(date: date, events: events)),
-        closedElevation: 0,
         openBuilder: (_, __) => DayEventsScreen(
               date: date,
               events: events,
               locale: MaterialLocalizations.of(context),
             ),
+        closedColor: Theme.of(context).primaryColor,
         closedBuilder: (_, __) => Column(children: [
               const Spacer(),
-              Text(
-                "${date.day}",
-                style: TextStyle(color: color),
-              ),
-              Expanded(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                          events.length.clamp(0, 3), (index) => eventBullet)),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate((events.length - 3).clamp(0, 3),
-                          (index) => eventBullet))
-                ],
+              Text("${date.day}", style: TextStyle(color: color)),
+              Flexible(
+                  child: Container(
+                alignment: Alignment.center,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                child: LayoutBuilder(builder: (_, constraints) {
+                  final itemsNbMax = (constraints.maxWidth / 7).floor() *
+                      (constraints.maxHeight / 7).floor();
+                  final itemsNb = events.length.clamp(0, itemsNbMax);
+
+                  return SizedBox(
+                      width: sqrt(itemsNb / 2.5) * 2.5 * 7,
+                      child: WrapSuper(
+                        spacing: 2,
+                        lineSpacing: 2,
+                        alignment: WrapSuperAlignment.center,
+                        children: List.generate(itemsNb,
+                            (_) => Icon(Icons.circle, size: 5, color: color)),
+                      ));
+                }),
               ))
             ]));
   }
@@ -80,36 +80,40 @@ class _MonthViewState extends State<MonthView> {
   @override
   Widget build(BuildContext context) {
     final intl = MaterialLocalizations.of(context);
-    return Column(children: [
-      Row(
-        children: [
-          IconButton(
-              onPressed: () {
-                setState(() {
-                  _month = DateTime(_month.year, _month.month - 1);
-                });
-              },
-              icon: const Icon(Icons.arrow_left)),
-          Text(intl.formatMonthYear(_month)),
-          IconButton(
-              onPressed: () {
-                setState(() {
-                  _month = DateTime(_month.year, _month.month + 1);
-                });
-              },
-              icon: const Icon(Icons.arrow_right))
-        ],
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      ),
-      Flexible(
-        child: GridView.count(
-          shrinkWrap: true,
-          crossAxisCount: 7,
-          children: getAllDisplayedDaysAndEvents()
-              .map((v) => dayNumber(date: v.date, events: v.events))
-              .toList(),
+
+    return Column(
+      children: [
+        Row(
+          children: [
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    _month = DateTime(_month.year, _month.month - 1);
+                  });
+                },
+                icon: const Icon(Icons.arrow_left)),
+            Text(intl.formatMonthYear(_month)),
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    _month = DateTime(_month.year, _month.month + 1);
+                  });
+                },
+                icon: const Icon(Icons.arrow_right))
+          ],
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
         ),
-      )
-    ]);
+        Flexible(
+            child: GridView.count(
+                crossAxisCount: 7,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                children: getAllDisplayedDaysAndEvents()
+                    .map((v) => dayNumber(date: v.date, events: v.events))
+                    .toList()))
+      ],
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+    );
   }
 }
