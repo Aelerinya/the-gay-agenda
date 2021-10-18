@@ -13,19 +13,21 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("The Gay Agenda")),
-        drawer: ValueListenableBuilder(
-            valueListenable: Hive.box<User>("users").listenable(),
-            builder: (_, Box<User> box, __) =>
-                ProfileDrawer(user: box.values.first)),
-        body: ValueListenableBuilder(
-            valueListenable: Hive.box<Event>("events").listenable(),
-            builder: (_, Box<Event> box, __) => MonthView(events: box.values)),
-        floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const CreateEvent()));
-            }));
+      appBar: AppBar(title: const Text("The Gay Agenda")),
+      drawer: ValueListenableBuilder(
+          valueListenable: Hive.box<User>("users").listenable(),
+          builder: (_, Box<User> box, __) =>
+              ProfileDrawer(user: box.values.first)),
+      body: ValueListenableBuilder(
+          valueListenable: Hive.box<Event>("events").listenable(),
+          builder: (_, Box<Event> box, __) => MonthView(events: box.values)),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const CreateEvent()));
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 }
