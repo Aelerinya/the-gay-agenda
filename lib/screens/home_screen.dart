@@ -6,7 +6,6 @@ import 'package:the_gay_agenda/services/events.dart';
 import 'package:the_gay_agenda/services/user.dart';
 import 'package:the_gay_agenda/widgets/month_view.dart';
 import 'package:the_gay_agenda/widgets/profile_drawer.dart';
-import 'package:the_gay_agenda/constants/rainbow_gradient.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -20,8 +19,7 @@ class HomeScreen extends StatelessWidget {
             builder: (_, Box<User> box, __) =>
                 ProfileDrawer(user: box.values.first)),
         body: Container(
-            decoration: const BoxDecoration(gradient: rainbowGradient),
-            padding: const EdgeInsets.all(50),
+            padding: const EdgeInsets.all(25),
             alignment: Alignment.center,
             child: ValueListenableBuilder(
                 valueListenable: Hive.box<Event>("events").listenable(),
