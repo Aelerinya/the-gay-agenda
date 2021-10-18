@@ -6,6 +6,7 @@ import 'package:the_gay_agenda/services/events.dart';
 import 'package:the_gay_agenda/services/user.dart';
 import 'package:the_gay_agenda/widgets/month_view.dart';
 import 'package:the_gay_agenda/widgets/profile_drawer.dart';
+import 'package:the_gay_agenda/constants/rainbow_gradient.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -13,21 +14,24 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("The Gay Agenda")),
-      drawer: ValueListenableBuilder(
-          valueListenable: Hive.box<User>("users").listenable(),
-          builder: (_, Box<User> box, __) =>
-              ProfileDrawer(user: box.values.first)),
-      body: ValueListenableBuilder(
-          valueListenable: Hive.box<Event>("events").listenable(),
-          builder: (_, Box<Event> box, __) => MonthView(events: box.values)),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const CreateEvent()));
-        },
-        child: const Icon(Icons.add),
-      ),
-    );
+        appBar: AppBar(title: const Text("The Gay Agenda")),
+        drawer: ValueListenableBuilder(
+            valueListenable: Hive.box<User>("users").listenable(),
+            builder: (_, Box<User> box, __) =>
+                ProfileDrawer(user: box.values.first)),
+        body: Container(
+            decoration: const BoxDecoration(gradient: rainbowGradient),
+            padding: const EdgeInsets.all(50),
+            alignment: Alignment.center,
+            child: ValueListenableBuilder(
+                valueListenable: Hive.box<Event>("events").listenable(),
+                builder: (_, Box<Event> box, __) =>
+                    MonthView(events: box.values))),
+        floatingActionButton: FloatingActionButton(
+            child: const Icon(Icons.add),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const CreateEvent()));
+            }));
   }
 }
