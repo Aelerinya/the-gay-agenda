@@ -10,46 +10,35 @@ class ColorPicker extends StatefulWidget {
 }
 
 class _ColorPickerState extends State<ColorPicker> {
-  Color pickerColor = Color(Hive.box('settings').get('color') ?? 0xff443a49);
-
-  void changeColor(Color color) {
-    setState(() => pickerColor = color);
-  }
+  final _settings = Hive.box('settings');
+  late var _color = Color(_settings.get('color'));
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-        onPressed: () => {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Pick a color!',
-                        style: TextStyle(
-                          color: Color(0xff000000),
-                        )),
-                    content: SingleChildScrollView(
-                      child: MaterialPicker(
-                        pickerColor: pickerColor,
-                        onColorChanged: changeColor,
-                      ),
-                    ),
-                    actions: <Widget>[
-                      TextButton(
-                        child: const Text('Change it!',
-                            style: TextStyle(
-                              color: Color(0xff000000),
-                            )),
+        child: const Text('Change app color'),
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                  title: const Text('Pick a color!'),
+                  content: MaterialPicker(
+                      pickerColor: _color,
+                      onColorChanged: (value) {
+                        _color = value;
+                      }),
+                  actions: [
+                    TextButton(
+                        child: const Text('Done',
+                            style: TextStyle(color: Colors.black)),
                         onPressed: () {
-                          Hive.box('settings').put('color', pickerColor.value);
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  );
-                },
-              )
+                          _settings.put('color', _color.value);
+                          Navigator.pop(context);
+                        })
+                  ]);
             },
-        child: const Text('Change App Color'));
+          );
+        });
   }
 }
