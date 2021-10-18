@@ -45,8 +45,10 @@ class _ProfilePicturePickerState extends State<ProfilePicturePicker> {
         Container(
             padding: const EdgeInsets.all(16),
             child: Column(children: [
-              const Text('New Profile Image:'),
+              const Text('New profile image:'),
+              const SizedBox(height: 10),
               imagePickerButton(ImageSource.gallery),
+              const SizedBox(height: 10),
               imagePickerButton(ImageSource.camera)
             ]))
       ],
