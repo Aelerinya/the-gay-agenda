@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:the_gay_agenda/screens/day_events.dart';
 import 'package:the_gay_agenda/services/events.dart';
 import 'package:the_gay_agenda/utils/datetime_helpers.dart';
@@ -41,14 +42,17 @@ class _MonthViewState extends State<MonthView> {
   Widget dayNumber({required DateTime date, required Iterable<Event> events}) {
     final color = date.month != _month.month ? Colors.grey : null;
 
-    return ElevatedButton(
+    return MaterialButton(
+      color: Theme.of(context).primaryColor,
+      padding: const EdgeInsets.all(0),
       child: Column(children: [
         const Spacer(),
         Text("${date.day}", style: TextStyle(color: color)),
         Flexible(
             child: Container(
                 alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: LayoutBuilder(builder: (_, constraints) {
                   final itemsNbMax = (constraints.maxWidth / 7).floor() *
                       (constraints.maxHeight / 7).floor();
@@ -57,10 +61,10 @@ class _MonthViewState extends State<MonthView> {
 
                   return SizedBox(
                       width: sqrt(itemsNb / itemsRatio) * itemsRatio * 7,
-                      child: Wrap(
+                      child: WrapSuper(
                         spacing: 2,
-                        runSpacing: 2,
-                        alignment: WrapAlignment.center,
+                        lineSpacing: 2,
+                        alignment: WrapSuperAlignment.center,
                         children: List.generate(itemsNb,
                             (_) => Icon(Icons.circle, size: 5, color: color)),
                       ));
