@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
@@ -42,14 +43,18 @@ class _MonthViewState extends State<MonthView> {
   Widget dayNumber({required DateTime date, required Iterable<Event> events}) {
     final color = date.month != _month.month ? Colors.grey : null;
 
-    return MaterialButton(
-      color: Theme.of(context).primaryColor,
-      padding: const EdgeInsets.all(0),
-      child: Column(children: [
-        const Spacer(),
-        Text("${date.day}", style: TextStyle(color: color)),
-        Flexible(
-            child: Container(
+    return OpenContainer(
+        openBuilder: (_, __) => DayEventsScreen(
+              date: date,
+              events: events,
+              locale: MaterialLocalizations.of(context),
+            ),
+        closedColor: Theme.of(context).primaryColor,
+        closedBuilder: (_, __) => Column(children: [
+              const Spacer(),
+              Text("${date.day}", style: TextStyle(color: color)),
+              Flexible(
+                  child: Container(
                 alignment: Alignment.center,
                 padding:
                     const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -68,18 +73,9 @@ class _MonthViewState extends State<MonthView> {
                         children: List.generate(itemsNb,
                             (_) => Icon(Icons.circle, size: 5, color: color)),
                       ));
-                })))
-      ]),
-      onPressed: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => DayEventsScreen(
-                    date: date,
-                    events: events,
-                    locale: MaterialLocalizations.of(context))));
-      },
-    );
+                }),
+              ))
+            ]));
   }
 
   @override
