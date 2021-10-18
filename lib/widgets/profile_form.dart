@@ -21,57 +21,53 @@ class _ProfileFormState extends State<ProfileForm> {
         child: Builder(
             builder: (context) => Form(
                 key: _formKey,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      ProfilePicturePicker(
-                        user: widget.user,
-                      ),
-                      TextFormField(
-                        decoration:
-                            const InputDecoration(labelText: 'First name'),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter your first name';
-                          }
-                        },
-                        onSaved: (value) =>
-                            setState(() => widget.user.firstName = value!),
-                      ),
-                      TextFormField(
-                        decoration:
-                            const InputDecoration(labelText: 'Last name'),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter your last name';
-                          }
-                        },
-                        onSaved: (value) =>
-                            setState(() => widget.user.lastName = value!),
-                      ),
-                      TextFormField(
-                        decoration: const InputDecoration(labelText: 'Email'),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter your email';
-                          }
-                        },
-                        onSaved: (value) =>
-                            setState(() => widget.user.email = value!),
-                      ),
-                      Container(
-                          padding: const EdgeInsets.all(16),
-                          child: ElevatedButton(
-                              onPressed: () {
-                                final form = _formKey.currentState;
-                                if (form!.validate()) {
-                                  form.save();
-                                  widget.user.save();
-                                  _showDialog(context);
-                                }
-                              },
-                              child: const Text('Save'))),
-                    ]))));
+                child: ListView(children: [
+                  ProfilePicturePicker(
+                    user: widget.user,
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(labelText: 'First name'),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your first name';
+                      }
+                    },
+                    onSaved: (value) =>
+                        setState(() => widget.user.firstName = value!),
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(labelText: 'Last name'),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your last name';
+                      }
+                    },
+                    onSaved: (value) =>
+                        setState(() => widget.user.lastName = value!),
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(labelText: 'Email'),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your email';
+                      }
+                    },
+                    onSaved: (value) =>
+                        setState(() => widget.user.email = value!),
+                  ),
+                  Container(
+                      padding: const EdgeInsets.all(16),
+                      child: ElevatedButton(
+                          onPressed: () {
+                            final form = _formKey.currentState;
+                            if (form!.validate()) {
+                              form.save();
+                              widget.user.save();
+                              _showDialog(context);
+                            }
+                          },
+                          child: const Text('Save'))),
+                ]))));
   }
 
   _showDialog(BuildContext context) {
