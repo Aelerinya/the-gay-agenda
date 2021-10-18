@@ -101,12 +101,14 @@ class _MonthViewState extends State<MonthView> {
         ],
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
       ),
-      GridView.count(
-        shrinkWrap: true,
-        crossAxisCount: 7,
-        children: getAllDisplayedDaysAndEvents()
-            .map((v) => dayNumber(date: v.date, events: v.events))
-            .toList(),
+      Flexible(
+        child: GridView.count(
+          shrinkWrap: true,
+          crossAxisCount: 7,
+          children: getAllDisplayedDaysAndEvents()
+              .map((v) => dayNumber(date: v.date, events: v.events))
+              .toList(),
+        ),
       )
     ]);
   }
